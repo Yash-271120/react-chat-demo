@@ -23,7 +23,7 @@ const Chats = () => {
   };
   return (
     <div className='text-black'>
-      {chats.length>0 && Object.entries(chats)?.sort((a,b)=>b[1].date-a[1].date).map(([key,value])=>{
+      {chats && chats.length>0 && Object.entries(chats)?.sort((a,b)=>b[1].date-a[1].date).map(([key,value])=>{
         return (
           <div key={key} className='p-3 flex items-center gap-3 cursor-pointer hover:bg-slate-400' onClick={()=>handleUserSelect(value.userInfo)}>
         <img className='w-12 h-12 rounded-full' src={value.userInfo.photoURL} alt="" />
