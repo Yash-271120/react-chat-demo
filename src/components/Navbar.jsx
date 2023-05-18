@@ -5,7 +5,6 @@ import { AuthContext } from '../context/AuthContext'
 
 const Navbar = () => {
   const {currentUser} = useContext(AuthContext);
-  console.log(currentUser);
   return (
     <div className='flex items-center bg-slate-500 p-3 h-14 justify-between'>
       <span className='font-bold hidden lg:block'>One-to-One Chat</span>
