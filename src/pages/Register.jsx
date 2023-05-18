@@ -5,15 +5,20 @@ import { auth, storage,db } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore"; 
+import { useNavigate,Link } from "react-router-dom";
 
 const Register = () => {
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
     const avatar = e.target[3].files[0];
+    if(!avatar) return setError(true);
     const isImage = (avatar) => avatar['type'].includes('image');
     if(!isImage(avatar)) return setError(true);
 
@@ -42,6 +47,7 @@ const Register = () => {
             });
 
             await setDoc(doc(db, "userChats", res.user.uid), {});
+            navigate("/");
           });
         }
       );
@@ -89,7 +95,7 @@ const Register = () => {
           )}
         </form>
         <p className="text-gray-800 text-xs mt-2">
-          You do have an account? Login
+          You do have an account? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>
