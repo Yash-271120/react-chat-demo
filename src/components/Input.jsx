@@ -15,13 +15,13 @@ const Input = () => {
 
   const {currentUser} = useContext(AuthContext);
   const {data} = useContext(ChatContext);
-
+  console.log(image);
   const isImage = (file) => file['type'].includes('image')
-
   const handleSend = async () => {
     if(image){
       const storageRef = ref(storage,v4());
       const uploadTask = uploadBytesResumable(storageRef, image);
+      console.log(image);
       uploadTask.on(
         (error) => {
           console.log(error);
@@ -76,7 +76,7 @@ const Input = () => {
     <div className='h-14 p-2 bg-white flex items-center justify-between text-black'>
       <input value={text} onChange={(e)=>setText(e.target.value)} type='text' placeholder='Type a message' className=' w-full border-none outline-none text-lg' />
       <div className='flex items-center gap-2'>
-        <input type="file" id='file' style={{display:'none'}} onChange={e=>setImage(e.target.files[0])}/>
+        <input type="file" id='file' accept='image/*' style={{display:'none'}} onChange={e=>setImage(e.target.files[0])}/>
         <label htmlFor="file">
         <img className='h-8 w-8 cursor-pointer' src={Attach} alt=""/>
         </label>
