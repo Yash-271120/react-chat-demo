@@ -22,36 +22,27 @@ const Input = () => {
     if(image){
       const storageRef = ref(storage,v4());
       const uploadTask = uploadBytesResumable(storageRef, image);
-      if(isImage(image)){
-        uploadTask.on(
-          (error) => {
-           // setError(true);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-              await updateDoc(doc(db, "chats", data.chatId),{
-                messages:arrayUnion({
-                  id:v4(),
-                  text:text,
-                  senderId:currentUser.uid,
-                  timestamp:Timestamp.now(),
-                  img:downloadURL
-                })
+      uploadTask.on(
+        (error) => {
+          console.log(error);
+         // setError(true);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            console.log(downloadURL,image);
+            await updateDoc(doc(db, "chats", data.chatId),{
+              messages:arrayUnion({
+                id:v4(),
+                text:text,
+                senderId:currentUser.uid,
+                timestamp:Timestamp.now(),
+                img:downloadURL,
+                isImage:isImage(image)
               })
-            });
-          }
-        );
-      }else{
-        await updateDoc(doc(db, "chats", data.chatId),{
-          messages:arrayUnion({
-            id:v4(),
-            text:text,
-            senderId:currentUser.uid,
-            timestamp:Timestamp.now(),
-            img:"NOT_SUPPORTED"
-          })
-        })
-      }
+            })
+          });
+        }
+      );
       
     }else{
       await updateDoc(doc(db, "chats", data.chatId),{
